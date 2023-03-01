@@ -54,7 +54,7 @@ function PlaceItem({
         }
       );
       onDelete(id);
-      navigation(`/${context.userId}/places`);
+      // navigation(`/${context.userId}/places`);  // what even is this? maybe was trying to use useNavigate? https://reactrouter.com/en/main/hooks/use-navigate
     } catch (err) {}
 
     console.log("DELETE");
