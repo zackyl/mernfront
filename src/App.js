@@ -1,24 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import { Suspense } from "react";
+import {
+  RouterProvider
+} from "react-router-dom";
+import LoadingSpinner from "./shared/components/UIElements/LoadingSpinner";
+import { AuthContext } from "./shared/context/auth-context";
+import useAuth from "./shared/hooks/auth-hook";
 
-function App() {
+function App({ router, routerOut }) {
+  const { token, login, logout, userId } = useAuth();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AuthContext.Provider
+      value={{ isLoggedIn: !!token, token, userId, login, logout }}
+    >
+      <Suspense
+        fallback={
+          <div className="center">
+            <LoadingSpinner />
+          </div>
+        }
+      >
+        <RouterProvider router={token ? router : routerOut} />
+      </Suspense>
+    </AuthContext.Provider>
   );
 }
 
