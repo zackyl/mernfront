@@ -12,7 +12,10 @@ function UserPlaces() {
   useEffect(() => {
     const getUserPlaces = async () => {
       try {
-        console.log('url', `${process.env.REACT_APP_BACKEND_URL}/places/user/${userId}`)
+        console.log(
+          "url",
+          `${process.env.REACT_APP_BACKEND_URL}/places/user/${userId}`
+        );
         const responseData = await sendRequest(
           `${process.env.REACT_APP_BACKEND_URL}/places/user/${userId}`
         );
@@ -28,7 +31,7 @@ function UserPlaces() {
 
   const placeDeleteHandler = (deletedPlaceId) => {
     setLoadedPlaces((prevPlaces) =>
-      prevPlaces.filter((prevPlaces) => prevPlaces.id != deletedPlaceId)
+      prevPlaces.filter((prevPlaces) => prevPlaces.id !== deletedPlaceId)
     );
   };
 

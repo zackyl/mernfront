@@ -21,13 +21,25 @@ const inputReducer = (state, action) => {
   }
 };
 
-function Input(props) {
-  // console.log('input props', props)
+function Input({
+  initialValue,
+  initialValid,
+  validators,
+  id,
+  onInput,
+  element,
+  type,
+  placeholder,
+  rows,
+  label,
+  errorText,
+}) {
+  // console.log('input props', rows)
   // console.log('validators inside', props.validators)
 
   const [inputState, dispatch] = useReducer(inputReducer, {
-    value: props.initialValue || "",
-    isValid: props.initialValid || false,
+    value: initialValue || "",
+    isValid: initialValid || false,
     isTouched: false,
   });
   // pass validators here ,doesn't really matter in reducer
@@ -35,7 +47,7 @@ function Input(props) {
     dispatch({
       type: "CHANGE",
       val: event.target.value,
-      validators: props.validators,
+      validators: validators,
     });
   };
 
@@ -44,28 +56,28 @@ function Input(props) {
       type: "TOUCH",
     });
   };
-  const { id, onInput } = props;
+
   const { value, isValid } = inputState;
 
   useEffect(() => {
-    props.onInput(props.id, inputState.value, inputState.isValid);
-  }, [id, onInput, value, isValid]);
+    onInput(id, inputState.value, inputState.isValid);
+  }, [id, onInput, value, isValid, inputState.value, inputState.isValid]);
 
   const inputele =
-    props.element === "input" ? (
+    element === "input" ? (
       <input
-        id={props.id}
-        type={props.type}
+        id={id}
+        type={type}
         value={inputState.value}
         onBlur={touchHandler}
-        placeholder={props.placeholder}
+        placeholder={placeholder}
         onChange={changeHandler}
       />
     ) : (
       // can also use ||
       <textarea
-        id={props.id}
-        rows={props.rows ?? 3}
+        id={id}
+        rows={rows ?? 3}
         onBlur={touchHandler}
         value={inputState.value}
         onChange={changeHandler}
@@ -78,11 +90,9 @@ function Input(props) {
         !inputState.isValid && inputState.isTouched && "form-control--invalid"
       }`}
     >
-      <label htmlFor={props.id}>{props.label}</label>
+      <label htmlFor={id}>{label}</label>
       {inputele}
-      {!inputState.isValid && inputState.isTouched ? (
-        <p>{props.errorText}</p>
-      ) : null}
+      {!inputState.isValid && inputState.isTouched ? <p>{errorText}</p> : null}
     </div>
   );
 }

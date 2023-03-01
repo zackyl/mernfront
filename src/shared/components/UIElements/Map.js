@@ -7,7 +7,7 @@ function Map({ center, zoom, className, style }) {
   // const uluru = { lat: -25.344, lng: 131.031 };
 
   useEffect(() => {
-    const map = new window.google.maps.Map(ref.current, {
+    new window.google.maps.Map(ref.current, {
       center,
       zoom,
     });
@@ -16,13 +16,6 @@ function Map({ center, zoom, className, style }) {
     //   map: map,
     // });
   }, [center, zoom]);
-
-  // const map = new window.google.maps.Map(document.getElementById("map"), {
-  //   center: { lat: -34.397, lng: 150.644 },
-  //   zoom: 8,
-  // });
-
-  // The marker, positioned at Uluru
 
   return (
     <div ref={ref} className={`map ${className}`} style={style}>
